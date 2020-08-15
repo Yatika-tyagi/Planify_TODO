@@ -1,0 +1,92 @@
+<div class="root">
+	<div class="navbar has-background-dark">
+		<div class="navbar-brand">
+		  <div class="navbar-item">
+			<h1 class="app-name has-gradient-text">Daily Task Manager</h1>
+			<button type="button"
+			id="modal-add" href="#modal-container-add" role="button" class="btn" data-toggle="modal" class="btn btn-primary">ADD New Task</button>
+	
+		</div>
+		</div>
+	  </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-16">
+				
+				<div class="modal fade" id="modal-container-add" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="myModalLabel">
+									Add/ Edit Task
+								</h5> 
+							</div>
+							<div class="modal-body">							
+
+								<div class="col-md-8">
+									<form>
+										<div class="form-group">
+										  <input [(ngModel)]="form.title" name="title" type="text" placeholder="Task Title..." class="form-control" id="email">
+										</div>
+										<div class="form-group">
+										  <input type="text" name="description" [(ngModel)]="form.description" class="form-control" id="pwd">
+										</div>
+	
+										<div class="form-group">
+											<select name="priority" [(ngModel)]="form.priority" class="form-control" aria-placeholder="Select Priority" id="sel1">
+												<option value="high">High</option>
+												<option value="low">Low</option>
+												<option value="normal">Normal</option>
+											  </select>
+										</div>		
+									</form>
+								</div>
+								<div class="col-md-8">Calender</div>
+							</div>
+							<div class="modal-footer">
+								 
+								<button type="button" class="btn btn-primary" (click)="createTask()" data-dismiss="modal">
+									Save changes
+								</button> 
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+			</div>
+	  </div>
+	</div>
+	<div class="from-top">
+		<span [ngClass]="{'red' : completedTask < 33, 'ember':  completedTask > 33 &&  completedTask < 66  , 'green': completedTask  >  66}">{{ completedTask }}%</span>
+	</div>
+	<div class="col-md-11">	  
+	  <div class="row" style="height: 100%;" cdkDropListGroup>
+			<div class="col-md-4 border-right board-column" *ngFor="let column of boardData; let i = index">
+		   
+		   <div class="column-title">
+			{{ column.name }}
+		  </div>
+			<div class="tasks-container"
+			[ngClass]="column.name"
+			cdkDropList
+			[cdkDropListData]="column.tasks"
+			(cdkDropListDropped)="drop($event)">
+			<ng-templpate *ngFor="let item of column.tasks  let j = index" cdkDrag >
+			  <div class="task">
+				<span [ngClass]="item?.priority"></span>
+				<span>{{ item?.title }}</span>
+				<span class="edit" (click)="edit(i,j)"></span>
+				<span class="delete" (click)="delete(i,j)"></span>
+	
+			  </div>
+			</ng-templpate>
+			</div>
+			</div>
+	  </div>
+	</div>
+	
+</div>
